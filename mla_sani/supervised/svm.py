@@ -173,7 +173,6 @@ class SVCDual(object):
         return self
 
     def predict(self, X):
-
         """Perform predict on X.
 
         Args:

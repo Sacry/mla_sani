@@ -38,7 +38,7 @@ class MLPClassifier(object):
         # number of outputs
         setattr(self, "n_outputs_", 1)
 
-        # If I'm not wrong, multi-label classification could be achieve by
+        # If I'm not wrong, multi-label classification could be achieved by
         #   * set n_outputs_ to number of unique labels
         #   * choose multi-category cross entropy as loss function
         #   * choose softmax as last layer activation

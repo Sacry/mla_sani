@@ -9,7 +9,7 @@ class BaseDecisionTree(ABC):
 
     Intuition:
         * There are several ways to measure how messy the data is.
-        * If you split data into different parts, each part could become much less messier. For example,
+        * If you split data into different parts, each part could become much less messy. For example,
             - split [0, 1, 0, 1, 0, 1] into [0, 0, 0], [1, 1, 1] looks pretty neat
             - split [0, 1, 0, 1, 0, 1] into [0, 0, 1], [1, 1, 0] looks not bad but not as good as above.
           Decision tree tries to find the best split by measuring the decrease of mess.
