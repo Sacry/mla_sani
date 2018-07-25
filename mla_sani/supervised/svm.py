@@ -7,7 +7,7 @@ class SVCPrimal(object):
     """A SaNI of svm classification tying to solve the primal problem.
 
     Note:
-        This implementation only supports binary classifiation with y belongs to {-1, 1}.
+        This implementation only supports binary classification with y belongs to {-1, 1}.
         No kernel support, no C support.
     """
     def __init__(self):
@@ -94,7 +94,7 @@ class SVCDual(object):
     """A SaNI of svm classification trying to solve the dual problem.
 
     Note:
-        This implementation only supports binary classifiation with y belongs to {-1, 1}.
+        This implementation only supports binary classification with y belongs to {-1, 1}.
 
     Args:
         kernel (Callable): Kernel function.

@@ -4,68 +4,6 @@ import numpy as np
 from numpy import exp, sqrt, pi, power, log
 from numpy.linalg import det, inv
 
-
-
-class CrossEntropy(object):
-    def loss(self, y, p):
-        p = np.clip(p, 1e-15, 1 - 1e-15)
-        return -(y * np.log(p) + (1 - y) * np.log(1 - p))
-    
-    def dloss(self, y, p):
-        p = np.clip(p, 1e-15, 1 - 1e-15)
-        return - (y / p - (1 - y) / (1 - p))
-    
-# class GeneralizedCrossEntropy(object):
-#     def loss(self, y, p, labels=None):
-#         transformer = LabelBinarizer()
-#         if labels is None:
-#             transformer.fit(y)
-#         else:
-#             transformer.fit(labels)
-#         y = transformer.transform(y)
-
-#         if len(transformer.classes_) == 2:
-#             y = np.hstack([1 - y, y])
-
-#         p = np.clip(p, 1e-15, 1 - 1e-15)
-#         p /= p.sum(axis=1, keepdims=True)
-#         return -np.sum(y * np.log(p), axis=1)
-    
-#     def dloss(self):
-#         raise NotImplementedError()
- 
-class SquareLoss(object):
-    def loss(self, y, p):
-        return (y - p) ** 2 / 2
-    
-    def dloss(self, y, p):
-        return p - y
-
-class Sigmoid(object):
-    def __call__(self, x):
-        # avoid overflow or underflow
-        x = np.clip(x, -100, 100)
-        return 1 / (1 + np.exp(-x))
-    
-    def derivative(self, ｘ):
-        return self(x) * (1 - self(x))
-
-sigmoid = Sigmoid()
-    
-class Softmax(object):
-    def __call__(self, z, axis=-1):
-        return np.exp(z) / np.sum(np.exp(z), axis=-1)
-    
-    def derivative(self, x):
-        return self(x) * (1 - self(x))
-    
-class Identity(object):
-    def __call__(self, x):
-        return x
-    
-    def derivative(self, x):
-        return 1
-
 class NormalDistribution(object):
     def __init__(self, mean ,var):
         self.mean = mean

@@ -99,15 +99,6 @@ class DecisionTreeClassifier(BaseDecisionTree):
             raise ValueError()
         super(DecisionTreeClassifier, self).__init__(criterion, max_depth, min_samples_split, min_impurity_decrease)
 
-    def fit(self, X, y):
-        setattr(self, "classes_", np.unique(y))
-
-        super(DecisionTreeClassifier, self).fit(X, y)
-        return self
-
-    def predict(self, X):
-        node_value = super(DecisionTreeClassifier, self).predict(X)
-        return self.classes_.take(node_value)
 
 class DecisionTreeRegressor(BaseDecisionTree):
     """A SaNI of decision tree regressor."""

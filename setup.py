@@ -1,5 +1,4 @@
-from setuptools import setup
-
+from setuptools import setup, find_packages
 
 setup(name='mla_sani',
       version='0.1',
@@ -8,7 +7,7 @@ setup(name='mla_sani',
       author='sacry',
       author_email='sacry@sacry.org',
       license='MIT',
-      packages=['mla_sani'],
+      packages=find_packages(),
       install_requires=[
           'matplotlib',
           'seaborn',
@@ -18,6 +17,5 @@ setup(name='mla_sani',
           'scipy',
           'ipython',
           'jupyter',
-
       ],
       zip_safe=False)

@@ -1,6 +1,7 @@
 import numpy as np
 
-from ..utils import CrossEntropy, Sigmoid
+from ..losses import CrossEntropy
+from ..activations import Sigmoid
 
 class MLPClassifier(object):
     """A SaNI of multilayer perceptron classifier.
@@ -31,9 +32,6 @@ class MLPClassifier(object):
             y (np.ndarray): shape = (n_samples,). Target values.
         """
         n_samples, n_features = X.shape
-
-        # unique class labels
-        setattr(self, "classes_", np.unique(y))
 
         # number of outputs
         setattr(self, "n_outputs_", 1)
@@ -117,4 +115,4 @@ class MLPClassifier(object):
         a = X
         for i in range(self.n_layers_ - 1):
             a = self.activation(a.dot(self.coefs_[i]) + self.intercepts_[i])
-        return self.classes_.take((a >= 0.5).astype(int).ravel())
+        return (a >= 0.5).astype(int).ravel()

@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from ..utils import sigmoid
+from ..activations import sigmoid
 
 class LinearRegressionLinalg(object):
     """A SaNI linear regression using linear algebra approach.

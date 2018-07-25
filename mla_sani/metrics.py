@@ -260,8 +260,8 @@ def silhouette_score(X, labels):
     """Compute silhouette coefficient.
 
     Intuition: If a data point is assigned to clsuter A, but is
-    "coloser" to cluster B, then it might be assigned to a wrong
-    cluster an will have a low silhouette score.
+    "closer" to cluster B, then it might be assigned to a wrong
+    cluster and will have a low silhouette score.
     """
     distances = pairwise_euclidean_distance(X, X)
     clusters = np.unique(labels)

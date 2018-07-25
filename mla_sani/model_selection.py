@@ -16,22 +16,11 @@ class KFold(BaseFold):
         self.n_splits = n_splits
 
     def split(self, X, y=None, groups=None):
-        n_samples = X.shape[0]
-        indices = np.arange(n_samples)
-
-        m = n_samples % self.n_splits
-        n = self.n_splits - m
-        k = n_samples // self.n_splits
+        indices = np.arange(X.shape[0])
+        splits = np.array_split(indices, self.n_splits)
 
         for i in range(self.n_splits):
-            if i < m:
-                start = (k + 1) * i
-                end = start + (k + 1)
-            else:
-                start = (k + 1) * m + k * (i - m)
-                end = start + k
-
-            yield np.delete(indices, np.s_[start:end]), indices[start:end]
+            yield np.concatenate(splits[:i] + splits[i+1:]), splits[i]
 
 class LeaveOneOut(BaseFold):
     def split(self, X, y=None, groups=None):
@@ -74,7 +63,7 @@ class StratifiedKFold(BaseFold):
         def convert_indices(class_split_result):
             return [ci[i] for ci, i in zip(class_indices, class_split_result)]
 
-        # when did I start writing shit like this and considering it 'recallable'
+        # when did I start writing code like this and considering it 'recallable'
         for ith_split in zip(*(kf.split(ci) for ci in class_indices)):
             train_indices, test_indices = map(convert_indices, zip(*ith_split))
             yield np.concatenate(train_indices), np.concatenate(test_indices)
