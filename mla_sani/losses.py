@@ -12,23 +12,28 @@ class CrossEntropy(object):
         return - (y / p - (1 - y) / (1 - p))
 
 class CategoricalCrossEntropy(object):
-    def loss(self, y, p, labels=None):
+    def __init__(self, labels=None):
+        self.labels = labels
+
+    def _transform_yp(self, y, p):
         transformer = LabelBinarizer()
-        if labels is None:
+        if self.labels is None:
             transformer.fit(y)
         else:
-            transformer.fit(labels)
+            transformer.fit(self.labels)
         y = transformer.transform(y)
-
-        if len(transformer.classes_) == 2:
-            y = np.hstack([1 - y, y])
 
         p = np.clip(p, 1e-15, 1 - 1e-15)
         p /= p.sum(axis=1, keepdims=True)
+        return y, p
+
+    def loss(self, y, p):
+        y, p = self._transform_yp(y, p)
         return -np.sum(y * np.log(p), axis=1)
 
-    def dloss(self):
-        raise NotImplementedError()
+    def dloss(self, y, p):
+        y, p = self._transform_yp(y, p)
+        return - (y / p - (1 - y) / (1 - p))
 
 class SquareLoss(object):
     def loss(self, y, p):

@@ -1,9 +1,28 @@
 from itertools import combinations
+from math import floor
 
 import numpy as np
 
 from .base import BaseFold
 
+
+def train_test_split(*arrays, **kwargs):
+    options = {'shuffle': True, 'test_size': 0.25, 'random_state': None}
+    options.update(kwargs)
+
+    n_samples = arrays[0].shape[0]
+    indices = np.arange(n_samples)
+    if options['shuffle']:
+        np.random.RandomState(options['random_state']).shuffle(indices)
+
+    train_end = floor(n_samples * (1 - options['test_size']))
+    train, test = indices[:train_end], indices[train_end:]
+
+    result = []
+    for a in arrays:
+        result.append(a[train])
+        result.append(a[test])
+    return result
 
 def cross_val_score(estimator, X, y, scoring, cv):
     return [
