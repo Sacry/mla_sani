@@ -38,7 +38,7 @@ class Layer(ABC):
         self.built = True
 
     @abstractmethod
-    def forward(self, X, train=True):
+    def forward(self, X, training=True):
         pass
 
     @abstractmethod
@@ -52,8 +52,8 @@ class Input(Layer):
         super().__init__()
         self.output_shape = input_shape
 
-    def forward(self, X, train=True):
-        if train:
+    def forward(self, X, training=True):
+        if training:
             self.layer_input = X
         return X
 
@@ -74,8 +74,8 @@ class Dense(Layer):
 
         super().build(input_shape, optimizer)
 
-    def forward(self, X, train=True):
-        if train:
+    def forward(self, X, training=True):
+        if training:
             self.layer_input = X
 
         return X.dot(self.kernel) + self.bias
@@ -119,8 +119,8 @@ class Activation(Layer):
 
         super().build(input_shape, optimizer)
 
-    def forward(self, X, train=True):
-        if train:
+    def forward(self, X, training=True):
+        if training:
             self.layer_input = X
 
         return self.activation(X)
@@ -191,8 +191,8 @@ class Conv2D(Layer):
         self.output_shape = self.compute_output_shape(input_shape)
         super().build(input_shape, optimizer)
 
-    def forward(self, X, train=True):
-        if train:
+    def forward(self, X, training=True):
+        if training:
             self.layer_input = X
 
         # (n_channels * kernel_size[0] * kernel_size[1], n_new_rows * n_new_cols * n_samples)
@@ -364,8 +364,8 @@ class Flatten(Layer):
 
         super().build(input_shape, optimizer)
 
-    def forward(self, X, train=True):
-        if train:
+    def forward(self, X, training=True):
+        if training:
             self.layer_input = X
         return X.reshape(-1, self.output_shape)
 
@@ -406,7 +406,7 @@ class MaxPooling2D(Layer):
 
         super().build(input_shape, optimizer)
 
-    def forward(self, X, train=True):
+    def forward(self, X, training=True):
         # |---|---|---|---|
         # | 1 | 1 | 2 | 4 |      |---|---|
         # | 5 | 6 | 7 | 8 |      | 6 | 8 |
@@ -415,7 +415,7 @@ class MaxPooling2D(Layer):
         # | 1 | 2 | 3 | 4 |      |---|---|
         # |---|---|---|---|
 
-        if train:
+        if training:
             self.layer_input = X
 
         n_new_rows, n_new_cols, n_channels = self.output_shape
@@ -495,8 +495,8 @@ class Dropout(Layer):
         self.output_shape = input_shape
         super().build(input_shape, optimizer)
 
-    def forward(self, X, train=True):
-        if not train:
+    def forward(self, X, training=True):
+        if not training:
             return X * self.p
 
         self.layer_input = X
