@@ -487,8 +487,6 @@ class Dropout(Layer):
         super().__init__()
 
         self.rate = rate
-
-        self.p = None  # drop threshold
         self.drop_mask = None
 
     def build(self, input_shape, optimizer=None):
@@ -497,15 +495,10 @@ class Dropout(Layer):
 
     def forward(self, X, training=True):
         if not training:
-            return X * self.p
+            return X * self.rate
 
         self.layer_input = X
-
-        # numbers of input units to drop
-        drop_units = int(np.prod(X.shape) * self.rate)
-        probs = np.random.rand(*X.shape)
-        self.p = np.partition(probs.ravel(), drop_units)[drop_units]
-        self.drop_mask = probs < self.p
+        self.drop_mask = np.random.rand(*X.shape) < self.rate
 
         return X * (~self.drop_mask)
 
